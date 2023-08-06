@@ -1,0 +1,15 @@
+.app{
+    height: 100vh;
+    display: flex;
+    background-color: black;
+    color: white;
+}
+
+.main{
+    width: 75%;
+}
+
+.pyramid{
+
+    width: 25%;
+}
