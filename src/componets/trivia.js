@@ -1,5 +1,8 @@
 
 export default function trivia() {
+
+  
+
   return (
     <div className="trivia">
         <div className="questions">India's National Animal?</div>
