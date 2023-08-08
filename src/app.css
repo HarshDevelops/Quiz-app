@@ -77,6 +77,20 @@
     margin: 0 10px 20px 10px;
 
 }
+
+.correct{
+    background-color: #39FF14;
+}
+
+.wrong{
+    background-color: #FF0000;
+}
+
+
+
+.answer:hover{
+    background-color: #9F91CC ;
+}
 .answer {
     width: 40%;
     padding: 10px;
