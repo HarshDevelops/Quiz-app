@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-export default function Trivia({ data, qno, setqno, timeout, settimeout }) {
+export default function Trivia({ data, qno, setqno, timeout, settimeout, handleWrongAnswer }) {
   const [question, setQuestion] = useState(null);
   const [answerss, setAnswers] = useState([]);
   const [className, setClassName] = useState("answer");
@@ -14,9 +14,8 @@ export default function Trivia({ data, qno, setqno, timeout, settimeout }) {
   const ans = (answer) => {
     setAnswers(answer);
     setClassName("answer active");
-    delay(3000, () => setClassName(answer.correct ? "answer correct" : "answer wrong"));
-
-    delay(6000, () => {
+    delay(1000, () => setClassName(answer.correct ? "answer correct" : "answer wrong"));
+    delay(2000, () => {
       if (answer.correct) {
         if (qno === data.length) {
           settimeout(true); // Set timeout to true only if it's the final question
@@ -24,7 +23,7 @@ export default function Trivia({ data, qno, setqno, timeout, settimeout }) {
           setqno((prev) => prev + 1);
         }
       } else {
-        settimeout(false);
+        handleWrongAnswer(); // Call the handleWrongAnswer function
       }
     });
   };

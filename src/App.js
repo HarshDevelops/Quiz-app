@@ -1,11 +1,13 @@
 import "./app.css";
 import { useState } from "react";
-import Trivia from "./componets/trivia";
+import Trivia from "./components/trivia";
+
+
 function App() {
   const [qno, setqno] = useState(1);
   const [timeout, settimeout] = useState(false);
-  const [money, setmoney] = useState("O Rs Won!");
-
+  const [totalEarned, setTotalEarned] = useState(0); // Track the total money earned
+  const [showTotalEarned, setShowTotalEarned] = useState(false); // To control rendering of total earned div
   const data = [
     {
       id: 1,
@@ -275,57 +277,60 @@ function App() {
 
   
   const moneypyramid = [
-    { id: 12, amount: "2,00,00,000 Rs" },
-    { id: 11, amount: "50,00,000 Rs" },
-    { id: 10, amount: "25,00,000 Rs" },
-    { id: 9, amount: "12,50,000 Rs" },
-    { id: 8, amount: "6,40,000 Rs" },
-    { id: 7, amount: "3,20,000 Rs" },
-    { id: 6, amount: "1,60,000 Rs" },
-    { id: 5, amount: "80,000 Rs" },
-    { id: 4, amount: "40,000 Rs" },
-    { id: 3, amount: "20,000 Rs" },
-    { id: 2, amount: "10,000 Rs" },
     { id: 1, amount: "5,000 Rs" },
+    { id: 2, amount: "10,000 Rs" },
+    { id: 3, amount: "20,000 Rs" },
+    { id: 4, amount: "40,000 Rs" },
+    { id: 5, amount: "80,000 Rs" },
+    { id: 6, amount: "1,60,000 Rs" },
+    { id: 7, amount: "3,20,000 Rs" },
+    { id: 8, amount: "6,40,000 Rs" },
+    { id: 9, amount: "12,50,000 Rs" },
+    { id: 10, amount: "25,00,000 Rs" },
+    { id: 11, amount: "50,00,000 Rs" },
+    { id: 12, amount: "2,00,00,000 Rs" },
   ];
+
+
+
+  const handleWrongAnswer = () => {
+    setShowTotalEarned(true);
+    settimeout(true);
+    if (qno === 1) {
+      setTotalEarned(0);
+    } else {
+      setTotalEarned(moneypyramid[qno - 2].amount);
+    }
+  };
 
   return (
     <div className="app">
-<div className="main">
-  {timeout || qno > data.length ? (
-    qno === 1 ? (
-      <h1 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-        You Won: {money}
-      </h1>
-    ) : (
-      <h1 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-        You Won: {" 0 Rs bruh"}
-      </h1>
-    )
-  ) : (
-    <>
-      <div className="top">
-        <div className="timer">30 </div>
+      <div className="main">
+        <div className="top">
+        </div>
+        <div className="answer-area">
+          {!showTotalEarned ? ( // Conditionally render trivia or total earned div
+            <Trivia
+              data={data}
+              qno={qno}
+              setqno={setqno}
+              timeout={timeout}
+              settimeout={settimeout}
+              handleWrongAnswer={handleWrongAnswer}
+            />
+          ) : (
+            <div className="total-earned">
+            <h1 style={{ textAlign: 'center', marginTop: '20px' }}>Total Money Earned:</h1>
+            <p style={{ textAlign: 'center' }}>{totalEarned} </p>
+          </div>
+          )}
+        </div>
       </div>
-      <div className="answer-area">
-        <Trivia
-          data={data}
-          qno={qno}
-          setqno={setqno}
-          timeout={timeout}
-          settimeout={settimeout}
-        />
-      </div>
-    </>
-  )}
-
-</div>
-
       <div className="pyramid">
         <ul className="Moneylist">
           <h3 style={{color:'#FFF7D4'}}> <u>Winnable Amount</u></h3>
           {moneypyramid.map((money) => (
-            <li className={qno ==  money.id ? "moneylistitem active" : "moneylistitem"} key={money.id}>
+            <li className={qno ===  money.id ? "moneylistitem active" : "moneylistitem"} key={money.id}>
               <span>{money.id}</span> {money.amount}
             </li>
           ))}
