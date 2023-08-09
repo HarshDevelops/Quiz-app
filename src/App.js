@@ -4,6 +4,8 @@ import Trivia from "./componets/trivia";
 function App() {
   const [qno, setqno] = useState(1);
   const [timeout, settimeout] = useState(false);
+  const [money, setmoney] = useState("O Rs Won!");
+
   const data = [
     {
       id: 1,
@@ -289,19 +291,36 @@ function App() {
 
   return (
     <div className="app">
-      <div className="main"> 
-        <div className="top">
-          <div className="timer">30 </div>
-        </div>
-        <div className="answer-area">
-          <Trivia  data={data} 
+<div className="main">
+  {timeout || qno > data.length ? (
+    qno === 1 ? (
+      <h1 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+        You Won: {money}
+      </h1>
+    ) : (
+      <h1 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+        You Won: {" 0 Rs bruh"}
+      </h1>
+    )
+  ) : (
+    <>
+      <div className="top">
+        <div className="timer">30 </div>
+      </div>
+      <div className="answer-area">
+        <Trivia
+          data={data}
           qno={qno}
           setqno={setqno}
           timeout={timeout}
           settimeout={settimeout}
-          />
-        </div>
+        />
       </div>
+    </>
+  )}
+
+</div>
+
       <div className="pyramid">
         <ul className="Moneylist">
           <h3 style={{color:'#FFF7D4'}}> <u>Winnable Amount</u></h3>

@@ -5,12 +5,28 @@ export default function Trivia({ data, qno, setqno, timeout, settimeout }) {
   const [answerss, setAnswers] = useState([]);
   const [className, setClassName] = useState("answer");
 
+  const delay = (duration, callback) => {
+    setTimeout(() => {
+      callback();
+    }, duration);
+  }
+
   const ans = (answer) => {
     setAnswers(answer);
     setClassName("answer active");
-    setTimeout(() => {
-      setClassName(answer.correct ? "answer correct" : "answer wrong");
-    }, 3000);
+    delay(3000, () => setClassName(answer.correct ? "answer correct" : "answer wrong"));
+
+    delay(6000, () => {
+      if (answer.correct) {
+        if (qno === data.length) {
+          settimeout(true); // Set timeout to true only if it's the final question
+        } else {
+          setqno((prev) => prev + 1);
+        }
+      } else {
+        settimeout(false);
+      }
+    });
   };
 
   useEffect(() => {
